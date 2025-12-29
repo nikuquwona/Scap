@@ -2,6 +2,13 @@ import Cocoa
 
 enum ImageWriter {
     static func save(image: NSImage, to directory: URL) {
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        } catch {
+            NSLog("Failed to create save directory: \(error)")
+            return
+        }
+
         guard let tiff = image.tiffRepresentation,
               let rep = NSBitmapImageRep(data: tiff),
               let data = rep.representation(using: .png, properties: [:]) else {

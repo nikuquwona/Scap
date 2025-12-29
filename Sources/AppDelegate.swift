@@ -6,6 +6,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let captureCoordinator = CaptureCoordinator()
     private let config = AppConfig.shared
     private var hotkeyManager: HotkeyManager?
+    private var keepOnTopItem: NSMenuItem?
+    private var preferencesController: PreferencesWindowController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -15,6 +17,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self?.captureCoordinator.beginCapture()
         }
         hotkeyManager?.register()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(hotkeyChanged), name: .hotkeyChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keepOnTopChanged), name: .keepOnTopChanged, object: nil)
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -23,7 +28,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem.button?.image = NSImage(systemSymbolName: "scissors", accessibilityDescription: "Scap")
+        if let image = NSImage(named: "StatusIcon") {
+            image.isTemplate = true
+            statusItem.button?.image = image
+        } else {
+            statusItem.button?.image = NSImage(systemSymbolName: "scissors", accessibilityDescription: "Scap")
+        }
 
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: "Capture", action: #selector(capture), keyEquivalent: "6"))
@@ -32,7 +42,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let keepOnTopItem = NSMenuItem(title: "Preview Always On Top", action: #selector(toggleKeepOnTop), keyEquivalent: "")
         keepOnTopItem.state = config.keepPreviewOnTop ? .on : .off
         menu.addItem(keepOnTopItem)
+        self.keepOnTopItem = keepOnTopItem
 
+        menu.addItem(NSMenuItem(title: "Preferences…", action: #selector(openPreferences), keyEquivalent: ","))
         menu.addItem(NSMenuItem(title: "Open Save Folder", action: #selector(openSaveFolder), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit Scap", action: #selector(quit), keyEquivalent: "q"))
@@ -54,7 +66,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.open(config.saveDirectory)
     }
 
+    @objc private func openPreferences() {
+        if preferencesController == nil {
+            preferencesController = PreferencesWindowController()
+        }
+        preferencesController?.show()
+    }
+
     @objc private func quit() {
         NSApp.terminate(nil)
+    }
+
+    @objc private func hotkeyChanged() {
+        hotkeyManager?.register()
+    }
+
+    @objc private func keepOnTopChanged() {
+        keepOnTopItem?.state = config.keepPreviewOnTop ? .on : .off
+        captureCoordinator.updatePreviewWindowLevel()
     }
 }

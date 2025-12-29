@@ -1,4 +1,5 @@
 import Foundation
+import Carbon
 
 final class AppConfig {
     static let shared = AppConfig()
@@ -6,6 +7,8 @@ final class AppConfig {
     private let defaults = UserDefaults.standard
     private let keepPreviewOnTopKey = "keepPreviewOnTop"
     private let saveDirectoryKey = "saveDirectory"
+    private let hotkeyKeyCodeKey = "hotkeyKeyCode"
+    private let hotkeyModifiersKey = "hotkeyModifiers"
 
     var keepPreviewOnTop: Bool {
         get { defaults.bool(forKey: keepPreviewOnTopKey) }
@@ -22,6 +25,18 @@ final class AppConfig {
         }
         set {
             defaults.set(newValue.path, forKey: saveDirectoryKey)
+        }
+    }
+
+    var hotkey: HotkeyDefinition {
+        get {
+            let keyCode = defaults.object(forKey: hotkeyKeyCodeKey) as? Int ?? Int(kVK_ANSI_6)
+            let modifiers = defaults.object(forKey: hotkeyModifiersKey) as? Int ?? Int(cmdKey | shiftKey)
+            return HotkeyDefinition(keyCode: UInt32(keyCode), modifiers: UInt32(modifiers))
+        }
+        set {
+            defaults.set(Int(newValue.keyCode), forKey: hotkeyKeyCodeKey)
+            defaults.set(Int(newValue.modifiers), forKey: hotkeyModifiersKey)
         }
     }
 
