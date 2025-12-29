@@ -8,11 +8,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var hotkeyManager: HotkeyManager?
     private var keepOnTopItem: NSMenuItem?
     private var preferencesController: PreferencesWindowController?
+    private var launcherWindowController: LauncherWindowController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("Scap launched")
-        let showDock = UserDefaults.standard.bool(forKey: "ScapShowDock")
-        NSApp.setActivationPolicy(showDock ? .regular : .accessory)
+        NSApp.setActivationPolicy(.regular)
         if UserDefaults.standard.bool(forKey: "ScapDebugAlert") {
             DispatchQueue.main.async {
                 let alert = NSAlert()
@@ -22,6 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         setupStatusItem()
+        showLauncherWindow()
 
         hotkeyManager = HotkeyManager { [weak self] in
             self?.captureCoordinator.beginCapture()
@@ -149,6 +150,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             preferencesController = PreferencesWindowController()
         }
         preferencesController?.show()
+    }
+
+    private func showLauncherWindow() {
+        if launcherWindowController == nil {
+            launcherWindowController = LauncherWindowController(
+                onCapture: { [weak self] in
+                    self?.captureCoordinator.beginCapture()
+                },
+                onPreferences: { [weak self] in
+                    self?.openPreferences()
+                }
+            )
+        }
+        launcherWindowController?.show()
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     @objc private func quit() {
