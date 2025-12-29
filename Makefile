@@ -1,6 +1,6 @@
 APP_NAME := Scap
 
-.PHONY: build debug run clean
+.PHONY: build debug run package clean
 
 build:
 	./scripts/build.sh release
@@ -10,6 +10,9 @@ debug:
 
 run:
 	./scripts/run.sh debug
+
+package:
+	./scripts/package.sh
 
 clean:
 	rm -rf build

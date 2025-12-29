@@ -22,6 +22,19 @@ make build
 make run
 ```
 
+## Package (.dmg)
+Creates a drag-and-drop DMG with the app and an Applications shortcut:
+
+```bash
+./scripts/package.sh
+```
+
+Or with make:
+
+```bash
+make package
+```
+
 ## Notes
 - macOS will request Screen Recording permission the first time you capture.
 
