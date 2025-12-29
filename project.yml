@@ -1,0 +1,19 @@
+name: Scap
+options:
+  bundleIdPrefix: com.nikuquwona
+  deploymentTarget:
+    macOS: 13.0
+targets:
+  Scap:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    resources:
+      - Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nikuquwona.Scap
+        SWIFT_VERSION: 5.9
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 0.1.0
