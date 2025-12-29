@@ -37,6 +37,7 @@ make package
 
 ## Notes
 - macOS will request Screen Recording permission the first time you capture.
+- If capture shows no result, open System Settings → Privacy & Security → Screen Recording and enable Scap.
 
 ## Default Shortcuts
 - Capture: Command + Shift + 7
