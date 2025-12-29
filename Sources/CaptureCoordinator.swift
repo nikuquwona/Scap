@@ -3,11 +3,15 @@ import Cocoa
 final class CaptureCoordinator {
     private let config = AppConfig.shared
     private var previewController: PreviewWindowController?
+    private var selectionController: SelectionWindowController?
 
     func beginCapture() {
+        selectionController?.close()
         let selector = SelectionWindowController()
+        selectionController = selector
         selector.onSelection = { [weak self] rect in
             guard let self else { return }
+            self.selectionController = nil
             guard let rect, rect.width > 2, rect.height > 2 else { return }
 
             if let image = ScreenCapture.capture(rect: rect) {

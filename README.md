@@ -7,16 +7,27 @@ Scap is a lightweight macOS menu bar screen capture app.
 - Toggle preview window level: always on top or normal.
 - Save captured images to disk (PNG).
 
-## Notes
-- macOS will request Screen Recording permission the first time you capture.
-- This project uses XcodeGen. Generate the Xcode project with:
+## Build (no Xcode project)
+Requires Xcode installed for the macOS SDK and `swiftc`.
 
 ```bash
-xcodegen generate
+./scripts/build.sh
+open build/Scap.app
 ```
 
+Or with make:
+
+```bash
+make build
+make run
+```
+
+## Notes
+- macOS will request Screen Recording permission the first time you capture.
+
 ## Default Shortcuts
-- Capture: Command + Shift + 6
+- Capture: Command + Shift + 7
+- You can change the hotkey in Preferences.
 
 ## License
 MIT

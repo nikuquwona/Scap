@@ -30,9 +30,9 @@ final class AppConfig {
 
     var hotkey: HotkeyDefinition {
         get {
-            let keyCode = defaults.object(forKey: hotkeyKeyCodeKey) as? Int ?? Int(kVK_ANSI_6)
+            let keyCode = defaults.object(forKey: hotkeyKeyCodeKey) as? Int ?? Int(kVK_ANSI_7)
             let modifiers = defaults.object(forKey: hotkeyModifiersKey) as? Int ?? Int(cmdKey | shiftKey)
-            return HotkeyDefinition(keyCode: UInt32(keyCode), modifiers: UInt32(modifiers))
+            return HotkeyDefinition(keyCode: UInt16(keyCode), modifiers: UInt32(modifiers))
         }
         set {
             defaults.set(Int(newValue.keyCode), forKey: hotkeyKeyCodeKey)

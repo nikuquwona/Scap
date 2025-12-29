@@ -27,7 +27,7 @@ final class HotkeyManager {
         let hotkey = config.hotkey
         let hotKeyID = EventHotKeyID(signature: OSType(0x53434150), id: 1) // "SCAP"
 
-        RegisterEventHotKey(hotkey.keyCode, hotkey.modifiers, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef)
+        RegisterEventHotKey(UInt32(hotkey.keyCode), hotkey.modifiers, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef)
     }
 
     func unregister() {

@@ -1,6 +1,6 @@
 import Foundation
 
 struct HotkeyDefinition: Equatable {
-    let keyCode: UInt32
+    let keyCode: UInt16
     let modifiers: UInt32
 }

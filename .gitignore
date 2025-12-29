@@ -8,3 +8,4 @@ DerivedData/
 *.xcodeproj/xcuserdata/
 *.xcodeproj/project.xcworkspace/
 .build/
+build/

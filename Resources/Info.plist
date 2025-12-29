@@ -4,6 +4,18 @@
 <dict>
   <key>CFBundleName</key>
   <string>Scap</string>
+  <key>CFBundleExecutable</key>
+  <string>Scap</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleSignature</key>
+  <string>????</string>
+  <key>NSPrincipalClass</key>
+  <string>NSApplication</string>
   <key>CFBundleDisplayName</key>
   <string>Scap</string>
   <key>CFBundleIdentifier</key>
